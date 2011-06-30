@@ -28,6 +28,10 @@ class BlogPost < ActiveRecord::Base
 
   attr_accessible :title, :body, :tag_list, :draft, :published_at, :browser_title, :meta_keywords, :meta_description, :user_id, :category_ids, :custom_url
 
+  scope :by_date, lambda { |archive_date|
+    where(['published_at between ? and ?', archive_date.beginning_of_day, archive_date.end_of_day])
+  }
+
   scope :by_archive, lambda { |archive_date|
     where(['published_at between ? and ?', archive_date.beginning_of_month, archive_date.end_of_month])
   }
